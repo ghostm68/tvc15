@@ -41,30 +41,29 @@ jobs:
         npx @capacitor/cli init "tvc15" "com.tvc15.app"
         npx @capacitor/cli add android
         
+    - name: Debug - Check if Android folder exists
+      run: |
+        echo "=== Checking Android folder structure ==="
+        ls -la android/app/src/main/res/ || echo "No res folder yet"
+        
     - name: Generate Android icons
       run: |
-        # Create the basic icon structure manually
-        mkdir -p android/app/src/main/res
-        
-        # Copy icon to all the required drawable folders
+        echo "=== Creating icon directories ==="
         mkdir -p android/app/src/main/res/mipmap-mdpi
         mkdir -p android/app/src/main/res/mipmap-hdpi
         mkdir -p android/app/src/main/res/mipmap-xhdpi
         mkdir -p android/app/src/main/res/mipmap-xxhdpi
         mkdir -p android/app/src/main/res/mipmap-xxxhdpi
         
+        echo "=== Copying icons ==="
         cp icon.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
         cp icon.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
         cp icon.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
         cp icon.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
         cp icon.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
         
-        # Also create round versions
-        cp icon.png android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
-        cp icon.png android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
-        cp icon.png android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
-        cp icon.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
-        cp icon.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+        echo "=== Verifying icons were copied ==="
+        ls -la android/app/src/main/res/mipmap-*/ic_launcher.png || echo "Icons not found"
         
     - name: Sync Capacitor
       run: npx @capacitor/cli sync
@@ -74,6 +73,11 @@ jobs:
         cd android
         chmod +x ./gradlew
         ./gradlew assembleDebug
+        
+    - name: Debug - Check final APK contents
+      run: |
+        echo "=== Checking if APK has icons ==="
+        unzip -l android/app/build/outputs/apk/debug/app-debug.apk | grep ic_launcher || echo "No icons found in APK"
       
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
