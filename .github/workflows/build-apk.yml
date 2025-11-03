@@ -35,7 +35,11 @@ jobs:
       
     - name: Initialize Capacitor and add Android
       run: |
+        # Remove the existing TypeScript config
+        rm -f capacitor.config.ts
+        # Initialize Capacitor (it will create capacitor.config.json)
         npx @capacitor/cli init tvc15 tvc15
+        # Add Android platform
         npx @capacitor/cli add android
         
     - name: Sync Capacitor
