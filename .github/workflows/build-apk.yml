@@ -43,10 +43,28 @@ jobs:
         
     - name: Generate Android icons
       run: |
-        # Install an icon generator
-        npm install -g @capacitor/assets
-        # Generate Android icons from your icon.png
-        npx @capacitor/assets generate --android --iconPath icon.png --assetPath android/app/src/main/res
+        # Create the basic icon structure manually
+        mkdir -p android/app/src/main/res
+        
+        # Copy icon to all the required drawable folders
+        mkdir -p android/app/src/main/res/mipmap-mdpi
+        mkdir -p android/app/src/main/res/mipmap-hdpi
+        mkdir -p android/app/src/main/res/mipmap-xhdpi
+        mkdir -p android/app/src/main/res/mipmap-xxhdpi
+        mkdir -p android/app/src/main/res/mipmap-xxxhdpi
+        
+        cp icon.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+        cp icon.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+        cp icon.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+        cp icon.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+        cp icon.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+        
+        # Also create round versions
+        cp icon.png android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+        cp icon.png android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+        cp icon.png android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+        cp icon.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+        cp icon.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
         
     - name: Sync Capacitor
       run: npx @capacitor/cli sync
