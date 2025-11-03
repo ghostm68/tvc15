@@ -18,14 +18,12 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
         
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Build web app
-      run: npm run build
-      
+    - name: Install dependencies and build
+      run: |
+        npm install --legacy-peer-deps
+        npm run build
+        
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
