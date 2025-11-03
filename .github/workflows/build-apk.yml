@@ -40,10 +40,21 @@ jobs:
         # Create the www directory and copy dist contents to it
         mkdir -p www
         cp -r dist/* www/
+        # Copy icon to www for Capacitor to find
+        cp icon.png www/
         # Initialize Capacitor with proper Java package format
         npx @capacitor/cli init "tvc15" "com.tvc15.app"
         # Add Android platform
         npx @capacitor/cli add android
+        
+    - name: Add app icon to Android
+      run: |
+        # Copy icon to Android res directory
+        mkdir -p android/app/src/main/res/drawable
+        cp icon.png android/app/src/main/res/drawable/icon.png
+        cp icon.png android/app/src/main/res/drawable/ic_launcher.png
+        cp icon.png android/app/src/main/res/drawable/ic_launcher_foreground.png
+        cp icon.png android/app/src/main/res/drawable/ic_launcher_round.png
         
     - name: Sync Capacitor
       run: npx @capacitor/cli sync
