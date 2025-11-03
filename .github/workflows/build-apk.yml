@@ -37,20 +37,13 @@ jobs:
       run: |
         # Remove the existing TypeScript config
         rm -f capacitor.config.ts
+        # Create the www directory and copy dist contents to it
+        mkdir -p www
+        cp -r dist/* www/
         # Initialize Capacitor with proper Java package format
         npx @capacitor/cli init "tvc15" "com.tvc15.app"
         # Add Android platform
         npx @capacitor/cli add android
-        # Update capacitor.config.json to use dist instead of www
-        echo '{
-          "appId": "com.tvc15.app",
-          "appName": "tvc15",
-          "webDir": "dist",
-          "server": {
-            "androidScheme": "https",
-            "allowNavigation": ["inkrealm.info"]
-          }
-        }' > capacitor.config.json
         
     - name: Sync Capacitor
       run: npx @capacitor/cli sync
