@@ -35,7 +35,7 @@ jobs:
       
     - name: Initialize Capacitor and add Android
       run: |
-        npx @capacitor/cli init tvc15 tvc15 --npm-client npm
+        npx @capacitor/cli init tvc15 tvc15
         npx @capacitor/cli add android
         
     - name: Sync Capacitor
